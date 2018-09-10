@@ -76,6 +76,8 @@ function Player:checkObjectCollisions()
             elseif object.consumable then
                 object.onConsume(self)
                 table.remove(self.level.objects, k)
+            elseif object.triggerable then
+                object.onTrigger(self)
             end
         end
     end

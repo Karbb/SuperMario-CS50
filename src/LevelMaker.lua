@@ -166,6 +166,7 @@ function LevelMaker.generate(width, height, state)
     map.tiles = tiles
 
     spawnLock(objects, width)
+    spawnGoal(objects, width)
 
     return GameLevel(entities, objects, map)
 end
@@ -255,9 +256,23 @@ function spawnGoal(objects, gameWidth)
         width = 16,
         height = 48,
         frame = 1,
-        collidable = true,
+        collidable = false,
         consumable = false,
-        solid = false
+        triggerable = true,
+        solid = false,
+        hit = false,
+        onTrigger = function(obj)
+            if not obj.hit then
+                for k, object in pairs(objects) do
+                    if object.texture == 'flags' then
+                        hit = false
+                        Timer.tween(1.25, {
+                            [object] = {y = 5 * TILE_SIZE}
+                        })
+                    end
+                end
+            end
+        end
     }
 
     table.insert(objects, post)
