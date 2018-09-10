@@ -37,6 +37,9 @@ require 'src/states/entity/PlayerFallingState'
 require 'src/states/entity/PlayerIdleState'
 require 'src/states/entity/PlayerJumpState'
 require 'src/states/entity/PlayerWalkingState'
+-- CS50: states to manage animation
+require 'src/states/entity/PlayerPausedState'
+require 'src/states/entity/PlayerAnimationState'
 
 require 'src/states/entity/snail/SnailChasingState'
 require 'src/states/entity/snail/SnailIdleState'

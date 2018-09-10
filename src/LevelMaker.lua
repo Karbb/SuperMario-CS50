@@ -166,7 +166,6 @@ function LevelMaker.generate(width, height, state)
     map.tiles = tiles
 
     spawnLock(objects, width)
-    spawnGoal(objects, width)
 
     return GameLevel(entities, objects, map)
 end
@@ -261,14 +260,18 @@ function spawnGoal(objects, gameWidth)
         triggerable = true,
         solid = false,
         hit = false,
-        onTrigger = function(obj)
+        -- CS50: trigger callback (no consume / no collide)
+        onTrigger = function(obj, player)
             if not obj.hit then
                 for k, object in pairs(objects) do
                     if object.texture == 'flags' then
-                        hit = false
-                        Timer.tween(1.25, {
+                        obj.hit = true
+                        player:changeState('pause')
+                        Timer.tween(1, {
                             [object] = {y = 5 * TILE_SIZE}
-                        })
+                        }):finish(function()  
+                            player:changeState('animation')
+                        end)
                     end
                 end
             end

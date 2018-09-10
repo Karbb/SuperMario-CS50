@@ -19,14 +19,16 @@ function PlayState:init()
     self.gravityAmount = 6
 
     self.player = Player({
-        x = 95*16, y = 0,
+        x = 0, y = 0,
         width = 16, height = 20,
         texture = 'green-alien',
         stateMachine = StateMachine {
             ['idle'] = function() return PlayerIdleState(self.player) end,
             ['walking'] = function() return PlayerWalkingState(self.player) end,
             ['jump'] = function() return PlayerJumpState(self.player, self.gravityAmount) end,
-            ['falling'] = function() return PlayerFallingState(self.player, self.gravityAmount) end
+            ['falling'] = function() return PlayerFallingState(self.player, self.gravityAmount) end,
+            ['pause'] = function() return PlayerPausedState(self.player) end,
+            ['animation'] = function() return PlayerAnimationState(self.player, self.gravityAmount) end,
         },
         map = self.tileMap,
         level = self.level
@@ -50,10 +52,12 @@ function PlayState:update(dt)
     self:updateCamera()
 
     -- constrain player X no matter which state
-    if self.player.x <= 0 then
-        self.player.x = 0
-    elseif self.player.x > TILE_SIZE * self.tileMap.width - self.player.width then
-        self.player.x = TILE_SIZE * self.tileMap.width - self.player.width
+    if self.player.win == false then
+        if self.player.x <= 0 then
+            self.player.x = 0
+        elseif self.player.x > TILE_SIZE * self.tileMap.width - self.player.width then
+            self.player.x = TILE_SIZE * self.tileMap.width - self.player.width
+        end
     end
 end
 
@@ -85,7 +89,14 @@ function PlayState:render()
     love.graphics.print(tostring(self.player.score), 5, 5)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.print(tostring(self.player.score), 4, 4)
-    
+
+    if self.player.win then
+        love.graphics.setFont(gFonts['title'])
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.printf('VITTORIA!', 1, VIRTUAL_HEIGHT / 2 - 40 + 1, VIRTUAL_WIDTH, 'center')
+        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.printf('VITTORIA!', 0, VIRTUAL_HEIGHT / 2 - 40, VIRTUAL_WIDTH, 'center')
+    end
 end
 
 function PlayState:updateCamera()

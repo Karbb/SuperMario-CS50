@@ -14,6 +14,7 @@ function Player:init(def)
     Entity.init(self, def)
     self.score = 0
     self.hasKey = false
+    self.win = false
 end
 
 function Player:update(dt)
@@ -33,7 +34,6 @@ function Player:checkLeftCollisions(dt)
     if (tileTopLeft and tileBottomLeft) and (tileTopLeft:collidable() or tileBottomLeft:collidable()) then
         self.x = (tileTopLeft.x - 1) * TILE_SIZE + tileTopLeft.width - 1
     else
-        
         self.y = self.y - 1
         local collidedObjects = self:checkObjectCollisions()
         self.y = self.y + 1
@@ -77,7 +77,7 @@ function Player:checkObjectCollisions()
                 object.onConsume(self)
                 table.remove(self.level.objects, k)
             elseif object.triggerable then
-                object.onTrigger(self)
+                object.onTrigger(object, self)
             end
         end
     end
