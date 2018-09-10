@@ -10,7 +10,7 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
     self.camX = 0
     self.camY = 0
-    self.level = LevelMaker.generate(100, 10)
+    self.level = LevelMaker.generate(100, 10, 'playstate')
     self.tileMap = self.level.tileMap
     self.background = math.random(3)
     self.backgroundX = 0
@@ -47,14 +47,14 @@ function PlayState:update(dt)
     self.player:update(dt)
     self.level:update(dt)
 
+    self:updateCamera()
+
     -- constrain player X no matter which state
     if self.player.x <= 0 then
         self.player.x = 0
     elseif self.player.x > TILE_SIZE * self.tileMap.width - self.player.width then
         self.player.x = TILE_SIZE * self.tileMap.width - self.player.width
     end
-
-    self:updateCamera()
 end
 
 function PlayState:render()
@@ -72,7 +72,12 @@ function PlayState:render()
     self.level:render()
 
     self.player:render()
+
     love.graphics.pop()
+
+    if self.player.hasKey then
+        love.graphics.draw(gTextures['keys_and_locks'], gFrames['keys_and_locks'][1], 3, 20)
+    end
     
     -- render score
     love.graphics.setFont(gFonts['medium'])
@@ -80,6 +85,7 @@ function PlayState:render()
     love.graphics.print(tostring(self.player.score), 5, 5)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.print(tostring(self.player.score), 4, 4)
+    
 end
 
 function PlayState:updateCamera()
