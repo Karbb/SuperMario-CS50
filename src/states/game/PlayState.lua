@@ -37,17 +37,26 @@ function PlayState:init()
     self:spawnEnemies()
 
     self.player:changeState('falling')
+
+    self.rewinding = false
 end
 
 function PlayState:update(dt)
+
+    if love.keyboard.isDown('m') then
+        self.rewinding = true
+    else
+        self.rewinding = false
+    end
+    
     Timer.update(dt)
 
     -- remove any nils from pickups, etc.
     self.level:clear()
 
     -- update player and level
-    self.player:update(dt)
-    self.level:update(dt)
+    self.player:update(dt, self.rewinding)
+    self.level:update(dt,self.rewinding)
 
     self:updateCamera()
 

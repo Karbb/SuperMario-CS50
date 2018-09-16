@@ -17,6 +17,7 @@
 Class = require 'lib/class'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
+Chain = require 'lib/knife.chain'
 
 --
 -- our own code
@@ -44,6 +45,7 @@ require 'src/states/entity/PlayerAnimationState'
 require 'src/states/entity/snail/SnailChasingState'
 require 'src/states/entity/snail/SnailIdleState'
 require 'src/states/entity/snail/SnailMovingState'
+require 'src/Step'
 
 -- general
 require 'src/Animation'
@@ -81,7 +83,8 @@ gTextures = {
     ['creatures'] = love.graphics.newImage('graphics/creatures.png'),
     ['keys_and_locks'] = love.graphics.newImage('graphics/keys_and_locks.png'),
     ['poles'] = love.graphics.newImage('graphics/flags.png'),
-    ['flags'] = love.graphics.newImage('graphics/flags.png')
+    ['flags'] = love.graphics.newImage('graphics/flags.png'),
+    ['mushrooms'] = love.graphics.newImage('graphics/mushrooms.png')
 }
 
 gFrames = {
@@ -99,7 +102,8 @@ gFrames = {
     ['keys_and_locks'] = GenerateQuads(gTextures['keys_and_locks'], 16, 16),
 
     ['poles'] = GenerateQuads(gTextures['flags'], 16, 48),
-    ['flags'] = GenerateQuads(gTextures['flags'], 16, 16)
+    ['flags'] = GenerateQuads(gTextures['flags'], 16, 16),
+    ['mushrooms'] = GenerateQuads(gTextures['mushrooms'], 8, 8),
 }
 
 -- these need to be added after gFrames is initialized because they refer to gFrames from within

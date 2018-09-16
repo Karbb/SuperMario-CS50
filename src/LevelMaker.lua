@@ -157,6 +157,10 @@ function LevelMaker.generate(width, height, state)
                         }
                     )
                 end
+
+                -- CS50: platform spawning
+                if math.random(20) == 1 then
+                end
             end
 
         end

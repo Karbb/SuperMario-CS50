@@ -17,8 +17,8 @@ function Player:init(def)
     self.win = false
 end
 
-function Player:update(dt)
-    Entity.update(self, dt)
+function Player:update(dt, rewinding)
+    Entity.update(self, dt, rewinding)
 end
 
 function Player:render()
