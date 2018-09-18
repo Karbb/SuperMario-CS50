@@ -102,6 +102,6 @@ function Entity:rewind()
     end
 end
 
-function Entity:countHistory()
+function Entity:count()
    return #self.history
 end

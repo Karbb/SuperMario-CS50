@@ -17,7 +17,6 @@
 Class = require 'lib/class'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
-Chain = require 'lib/knife.chain'
 
 --
 -- our own code
@@ -45,6 +44,8 @@ require 'src/states/entity/PlayerAnimationState'
 require 'src/states/entity/snail/SnailChasingState'
 require 'src/states/entity/snail/SnailIdleState'
 require 'src/states/entity/snail/SnailMovingState'
+
+-- CS50: Rewind step class
 require 'src/Step'
 
 -- general
